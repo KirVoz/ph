@@ -35,6 +35,7 @@ typedef enum e_opcode
 {
 	LOCK,
 	UNLOCK,
+	INIT,
 	DESTROY,
 	CREATE,
 	JOIN,
@@ -60,6 +61,7 @@ typedef struct s_philo
 	t_fork				*first_fork;
 	t_fork				*second_fork;
 	pthread_t			thread_id;
+	t_table				*table;
 }						t_philo;
 
 typedef struct s_table
@@ -71,14 +73,16 @@ typedef struct s_table
 	long				nbr_limit_meals;
 	long				start_simulation;
 	bool				end_simulation;
-	t_fork				*fork;
+	bool				all_threads_ready;
+	t_mtx				table_mutex;
+	t_fork				*forks;
 	t_philo				*philos;
 }						t_table;
 /*error*/
 void					error_exit(const char *error);
 /*parser*/
 void					parse_input(t_table *table, char **av);
-/*safe*/
+/*safe_malloc*/
 void					*safe_malloc(size_t bytes);
 /*safe_malloc*/
 void					*safe_mutex_handle(t_mtx *mutex, t_opcode opcode);

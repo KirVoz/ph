@@ -12,13 +12,13 @@
 
 #include "philo.h"
 
-static void	assign_forks(t_philo *philo, t_fork *forks, int position)
+static void	assign_forks(t_philo *philo, t_fork *forks, int philo_position)
 {
 	int	philo_nbr;
 	
 	philo_nbr = philo->table->philo_nbr;
 	philo->first_fork = &forks[(philo_position + 1) % philo_nbr];
-	pholo->second_fork = &forks[philo_position];
+	philo->second_fork = &forks[philo_position];
 	if (philo->id % 2)
 	{
 		philo->first_fork = &forks[philo_position];
@@ -49,7 +49,9 @@ void	data_init(t_table *table)
 
 	i = -1;
 	table->end_simulation = false;
+	table->all_threads_ready = false;
 	table->philos = safe_malloc(sizeof(t_philo) * table->philo_nbr);
+	safe_mutex_handle(&table->table_mutex, INIT);
 	table->forks = safe_malloc(sizeof(t_fork) * table->philo_nbr);
 	while (++i < table->philo_nbr)
 	{
