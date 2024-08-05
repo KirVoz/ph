@@ -66,7 +66,7 @@ static void	handle_thread_error(int status, t_opcode opcode)
 		error_exit("The caller does not have appropriate permission\n");
 	else if (EINVAL == status && CREATE == opcode)
 		error_exit("The value specified by attr is invalid.");
-	else if (ENVAL == status && (JOIN == opcode || DETACH == opcode))
+	else if (EINVAL == status && (JOIN == opcode || DETACH == opcode))
 		error_exit("The value specified by thread is not joinable\n");
 	else if (ESRCH == status)
 		error_exit("No thread could be found corresponding to that"

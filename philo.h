@@ -22,7 +22,7 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-# define RESET "\033[0m"
+# define RST "\033[0m"
 # define RED "\033[1;31m"
 # define GREEN "\033[1;32m"
 # define YELLOW "\033[1;33m"
@@ -41,6 +41,23 @@ typedef enum e_opcode
 	JOIN,
 	DETACH,
 }						t_opcode;
+
+typedef enum e_time_code
+{
+	SEC,
+	MILLSEC,
+	MICROSEC,
+}						t_time_code;
+
+typedef	enum e_status
+{
+	EATING,
+	SLEEPING,
+	THINKING,
+	TAKE_FIRST_FORK,
+	TAKE_SECOND_FORK,
+	DIED,
+}						t_philo_status;
 
 typedef pthread_mutex_t	t_mtx;
 
@@ -75,11 +92,16 @@ typedef struct s_table
 	bool				end_simulation;
 	bool				all_threads_ready;
 	t_mtx				table_mutex;
+	t_mtx				write_mutex;
 	t_fork				*forks;
 	t_philo				*philos;
 }						t_table;
 /*error*/
 void					error_exit(const char *error);
+/*time*/
+long					get_time(t_time_code time_code);
+/*precice time founder*/
+void					precise_usleep(long usec, t_table *table);
 /*parser*/
 void					parse_input(t_table *table, char **av);
 /*safe_malloc*/
@@ -91,6 +113,13 @@ void					safe_thread_handle(pthread_t *thread,
 							void *(foo)(void *), void *data, t_opcode opcode);
 /*init*/
 void					data_init(t_table *table);
-
+/*bool + long set func*/
+void					set_bool(t_mtx *mutex, bool *dest, bool value);
+bool					get_bool(t_mtx *mutex, bool *value);
+void					set_long(t_mtx *mutex, long *dest, long value);
+long					get_long(t_mtx *mutex, long *value);
+bool					simulation_finished(t_table *table);
+/*spinlock*/
+void					wait_all_threads(t_table *table);
 
 #endif
