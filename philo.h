@@ -31,6 +31,8 @@
 # define CYAN "\033[1;36m"
 # define WHITE "\033[1;37m"
 
+# define DEBUG_MODE 0
+
 typedef enum e_opcode
 {
 	LOCK,
@@ -78,6 +80,7 @@ typedef struct s_philo
 	t_fork				*first_fork;
 	t_fork				*second_fork;
 	pthread_t			thread_id;
+	t_mtx				philo_mutex;
 	t_table				*table;
 }						t_philo;
 
@@ -121,5 +124,8 @@ long					get_long(t_mtx *mutex, long *value);
 bool					simulation_finished(t_table *table);
 /*spinlock*/
 void					wait_all_threads(t_table *table);
+/*write*/
+void					write_status(t_philo_status status, t_philo *philo, bool debug);
+
 
 #endif
