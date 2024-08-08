@@ -6,7 +6,7 @@
 /*   By: kvoznese <kvoznese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 20:00:13 by kvoznese          #+#    #+#             */
-/*   Updated: 2024/07/29 20:02:48 by kvoznese         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:06:05 by kvoznese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ int	main(int ac, char **av)
 		parse_input(&table, av);
 		data_init(&table);
 		dinner_start(&table);
-		clean(&table);
+		// clean(&table);
 	}
 	else
 	{
-		error_exit("Wrong input:\n"
-			GREEN "Correct is ./phio num num num num [num]" RESET);
+		error_exit("Wrong input:\n" GREEN
+			"Correct is ./philo num num num num [num]" RST);
 	}
 }

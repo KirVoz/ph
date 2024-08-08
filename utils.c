@@ -6,7 +6,7 @@
 /*   By: kvoznese <kvoznese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 19:59:42 by kvoznese          #+#    #+#             */
-/*   Updated: 2024/07/29 20:01:44 by kvoznese         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:05:26 by kvoznese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	precise_usleep(long usec, t_table *table)
 	while (get_time(MICROSEC) - start < usec)
 	{
 		if (simulation_finished(table))
-			break;
+			break ;
 		elapsed = get_time(MICROSEC) - start;
 		rem = usec - elapsed;
 		if (rem > 1e3)
@@ -54,6 +54,6 @@ void	precise_usleep(long usec, t_table *table)
 
 void	error_exit(const char *error)
 {
-	printf(RED "🚨 %s 😡\n" RESET, error);
+	printf(RED "🚨 %s 😡\n" RST, error);
 	exit(EXIT_FAILURE);
 }

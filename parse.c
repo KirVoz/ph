@@ -6,7 +6,7 @@
 /*   By: kvoznese <kvoznese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 20:00:01 by kvoznese          #+#    #+#             */
-/*   Updated: 2024/07/30 14:35:58 by kvoznese         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:03:32 by kvoznese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static const char	*valid_input(const char *str)
 	return (number);
 }
 
-static long	ft_atol(const char **str)
+static long	ft_atol(const char *str)
 {
 	long	num;
 

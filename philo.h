@@ -6,7 +6,7 @@
 /*   By: kvoznese <kvoznese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 19:59:51 by kvoznese          #+#    #+#             */
-/*   Updated: 2024/07/30 15:04:56 by kvoznese         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:43:29 by kvoznese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef enum e_time_code
 	MICROSEC,
 }						t_time_code;
 
-typedef	enum e_status
+typedef enum e_status
 {
 	EATING,
 	SLEEPING,
@@ -110,7 +110,7 @@ void					parse_input(t_table *table, char **av);
 /*safe_malloc*/
 void					*safe_malloc(size_t bytes);
 /*safe_malloc*/
-void					*safe_mutex_handle(t_mtx *mutex, t_opcode opcode);
+void					safe_mutex_handle(t_mtx *mutex, t_opcode opcode);
 /*safe_thread*/
 void					safe_thread_handle(pthread_t *thread,
 							void *(foo)(void *), void *data, t_opcode opcode);
@@ -125,7 +125,10 @@ bool					simulation_finished(t_table *table);
 /*spinlock*/
 void					wait_all_threads(t_table *table);
 /*write*/
-void					write_status(t_philo_status status, t_philo *philo, bool debug);
-
+void					write_status(t_philo_status status, t_philo *philo,
+							bool debug);
+/*dinner*/
+void					dinner_start(t_table *table);
+void					*dinner_simulation(void *data);
 
 #endif

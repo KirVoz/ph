@@ -6,7 +6,7 @@
 /*   By: kvoznese <kvoznese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 12:59:58 by kvoznese          #+#    #+#             */
-/*   Updated: 2024/07/30 14:11:19 by kvoznese         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:44:39 by kvoznese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	handle_mutex_error(int status, t_opcode opcode)
 		error_exit("Mutex is locked");
 }
 
-void	*safe_mutex_handle(t_mtx *mutex, t_opcode opcode)
+void	safe_mutex_handle(t_mtx *mutex, t_opcode opcode)
 {
 	if (LOCK == opcode)
 		handle_mutex_error(pthread_mutex_lock(mutex), opcode);
@@ -69,10 +69,10 @@ static void	handle_thread_error(int status, t_opcode opcode)
 	else if (EINVAL == status && (JOIN == opcode || DETACH == opcode))
 		error_exit("The value specified by thread is not joinable\n");
 	else if (ESRCH == status)
-		error_exit("No thread could be found corresponding to that"
+		error_exit("No thread could be found corresponding to that "
 			"specified by a given thread ID, thread.");
 	else if (EDEADLK == status)
-		error_exit("A deadlock was detected or the value of"
+		error_exit("A deadlock was detected or the value of "
 			"thread specifies the calling thread.");
 }
 
