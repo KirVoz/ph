@@ -24,7 +24,7 @@ bool	get_bool(t_mtx *mutex, bool *value)
 	bool	ret;
 
 	safe_mutex_handle(mutex, LOCK);
-	ret = value;
+	ret = *value;
 	safe_mutex_handle(mutex, UNLOCK);
 	return (ret);
 }
@@ -38,10 +38,10 @@ void	set_long(t_mtx *mutex, long *dest, long value)
 
 long	get_long(t_mtx *mutex, long *value)
 {
-	bool	ret;
+	long	ret;
 
 	safe_mutex_handle(mutex, LOCK);
-	ret = value;
+	ret = *value;
 	safe_mutex_handle(mutex, UNLOCK);
 	return (ret);
 }

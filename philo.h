@@ -31,7 +31,7 @@
 # define CYAN "\033[1;36m"
 # define WHITE "\033[1;37m"
 
-# define DEBUG_MODE 0
+# define DEBUG_MODE 1
 
 typedef enum e_opcode
 {
@@ -94,6 +94,8 @@ typedef struct s_table
 	long				start_simulation;
 	bool				end_simulation;
 	bool				all_threads_ready;
+	long				threads_running_nbr;
+	pthread_t			monitor;
 	t_mtx				table_mutex;
 	t_mtx				write_mutex;
 	t_fork				*forks;
@@ -122,13 +124,20 @@ bool					get_bool(t_mtx *mutex, bool *value);
 void					set_long(t_mtx *mutex, long *dest, long value);
 long					get_long(t_mtx *mutex, long *value);
 bool					simulation_finished(t_table *table);
+bool					all_threads_running(t_mtx *mutex, long *threads,
+						long philo_nbr);
 /*spinlock*/
 void					wait_all_threads(t_table *table);
+void					increase_long(t_mtx *mutex, long *value);
 /*write*/
 void					write_status(t_philo_status status, t_philo *philo,
 							bool debug);
 /*dinner*/
 void					dinner_start(t_table *table);
 void					*dinner_simulation(void *data);
+/*monitor*/
+void					*monitor_dinner(void *data);
+/*clean*/
+void					clean(t_table *table);
 
 #endif

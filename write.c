@@ -16,7 +16,7 @@ static void	write_status_debug(t_philo_status status, t_philo *philo,
 		long elapsed)
 {
 	if (TAKE_FIRST_FORK == status && !simulation_finished(philo->table))
-		printf(WHITE "%6ld" RST " %d has taken 1st fork"
+		printf(WHITE"%6ld"RST" %d has taken 1st fork"
 			"\t\t\tn" BLUE "[...%d...]\n" RST,
 			elapsed,
 			philo->id,
