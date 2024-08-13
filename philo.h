@@ -6,7 +6,7 @@
 /*   By: kvoznese <kvoznese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 19:59:51 by kvoznese          #+#    #+#             */
-/*   Updated: 2024/08/13 16:48:09 by kvoznese         ###   ########.fr       */
+/*   Updated: 2024/08/13 20:37:04 by kvoznese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void					set_long(t_mtx *mutex, long *dest, long value);
 long					get_long(t_mtx *mutex, long *value);
 bool					simulation_finished(t_table *table);
 bool					all_threads_running(t_mtx *mutex, long *threads,
-						long philo_nbr);
+							long philo_nbr);
 /*spinlock*/
 void					wait_all_threads(t_table *table);
 void					increase_long(t_mtx *mutex, long *value);
@@ -139,5 +139,9 @@ void					*dinner_simulation(void *data);
 void					*monitor_dinner(void *data);
 /*clean*/
 void					clean(t_table *table);
+/*thinking*/
+void					thinking(t_philo *philo, bool pre_sim);
+/*de_synch*/
+void					de_synchronize(t_philo *philo);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: kvoznese <kvoznese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 19:59:42 by kvoznese          #+#    #+#             */
-/*   Updated: 2024/08/13 16:58:19 by kvoznese         ###   ########.fr       */
+/*   Updated: 2024/08/13 20:37:16 by kvoznese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	clean(t_table *table)
 	int		i;
 
 	i = -1;
-	while (++i <table->philo_nbr)
+	while (++i < table->philo_nbr)
 	{
 		philo = table->philos + i;
 		safe_mutex_handle(&philo->philo_mutex, DESTROY);

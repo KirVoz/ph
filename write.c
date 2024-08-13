@@ -6,7 +6,7 @@
 /*   By: kvoznese <kvoznese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 19:30:01 by kvoznese          #+#    #+#             */
-/*   Updated: 2024/08/13 17:23:55 by kvoznese         ###   ########.fr       */
+/*   Updated: 2024/08/13 17:53:14 by kvoznese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	write_status_debug(t_philo_status status, t_philo *philo,
 	else if (THINKING == status && !simulation_finished(philo->table))
 		printf(WHITE "%6ld" RST " %d is thinking\n", elapsed, philo->id);
 	else if (DIED == status)
-		printf(RED "\t\t\t %6ld %d 💀 is dead....\n" RST, elapsed, philo->id);
+		printf(RED "\t\t\t %-6ld %d 💀 is dead....\n" RST, elapsed, philo->id);
 }
 
 void	write_status(t_philo_status status, t_philo *philo, bool debug)
