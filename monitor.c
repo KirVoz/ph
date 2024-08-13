@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvoznese <kvoznese@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: kvoznese <kvoznese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 18:32:05 by kvoznese          #+#    #+#             */
-/*   Updated: 2024/08/09 18:32:05 by kvoznese         ###   ########.fr       */
+/*   Updated: 2024/08/13 17:20:05 by kvoznese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	*monitor_dinner(void *data)
 	while (!simulation_finished(table))
 	{
 		i = -1;
-		while (++i < table->philo_nbr)
+		while (++i < table->philo_nbr && !simulation_finished(table))
 		{
 			if (philo_died(table->philos + i))
 			{

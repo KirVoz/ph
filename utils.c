@@ -6,7 +6,7 @@
 /*   By: kvoznese <kvoznese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 19:59:42 by kvoznese          #+#    #+#             */
-/*   Updated: 2024/08/08 15:05:26 by kvoznese         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:58:19 by kvoznese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	precise_usleep(long usec, t_table *table)
 		elapsed = get_time(MICROSEC) - start;
 		rem = usec - elapsed;
 		if (rem > 1e3)
-			usleep(usec / 2);
+			usleep(rem / 2);
 		else
 		{
 			while (get_time(MICROSEC) - start < usec)
