@@ -30,7 +30,7 @@ RM = rm -rf
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(HEAD)
 	@echo "${GREEN}Building $(NAME)...${RST}"
 	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 	@echo "${CYAN}Done 🍱${RST}"

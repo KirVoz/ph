@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   write.c                                            :+:      :+:    :+:   */
+/*   write_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvoznese <kvoznese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/05 19:30:01 by kvoznese          #+#    #+#             */
-/*   Updated: 2024/08/20 13:19:31 by kvoznese         ###   ########.fr       */
+/*   Created: 2024/08/18 04:22:56 by kvoznese          #+#    #+#             */
+/*   Updated: 2024/08/20 13:20:03 by kvoznese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 static void	write_status_debug(t_philo_status status, t_philo *philo,
 		long elapsed)
@@ -48,7 +48,7 @@ void	write_status(t_philo_status status, t_philo *philo, bool debug)
 	elapsed = get_time(MILLSEC) - philo->table->start_simulation;
 	if (philo->full)
 		return ;
-	safe_mutex_handle(&philo->table->write_mutex, LOCK);
+	sem_wait(philo->table->write_sem);
 	if (debug)
 		write_status_debug(status, philo, elapsed);
 	else
@@ -67,5 +67,5 @@ void	write_status(t_philo_status status, t_philo *philo, bool debug)
 		else if (DIED == status)
 			printf(WHITE "%-6ld" RST " %d 💀 DIED\n", elapsed, philo->id);
 	}
-	safe_mutex_handle(&philo->table->write_mutex, UNLOCK);
+	sem_post(philo->table->write_sem);
 }

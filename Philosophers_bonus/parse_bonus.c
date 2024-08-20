@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   parse_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvoznese <kvoznese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/29 20:00:01 by kvoznese          #+#    #+#             */
-/*   Updated: 2024/08/16 20:00:47 by kvoznese         ###   ########.fr       */
+/*   Created: 2024/08/16 19:57:30 by kvoznese          #+#    #+#             */
+/*   Updated: 2024/08/20 13:08:29 by kvoznese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 static inline bool	is_digit(char c)
 {
@@ -57,18 +57,18 @@ static long	ft_atol(const char *str)
 	return (num);
 }
 
-void	parse_input(t_table *table, char **av)
+void	parse(t_table *philo, char **av)
 {
-	table->philo_nbr = ft_atol(av[1]);
-	table->time_to_die = ft_atol(av[2]) * 1e3;
-	table->time_to_eat = ft_atol(av[3]) * 1e3;
-	table->time_to_sleep = ft_atol(av[4]) * 1e3;
-	if (table->time_to_die < 6e4
-		|| table->time_to_eat < 6e4
-		|| table->time_to_sleep < 6e4)
-		error_exit("⏲ USE TIMESTAMPS MAJOR THAN 60MS 🕰");
+	philo->philo_nbr = ft_atol(av[1]);
+	philo->t2d = ft_atol(av[2]) * 1e3;
+	philo->t2e = ft_atol(av[3]) * 1e3;
+	philo->t2s = ft_atol(av[4]) * 1e3;
+	if (philo->t2d < 6e4
+		|| philo->t2e < 6e4
+		|| philo->t2s < 6e4)
+		error_exit(RED"⏲ USE TIMESTAMPS MAJOR THAN 60MS 🕰");
 	if (av[5])
-		table->nbr_limit_meals = ft_atol(av[5]);
+		philo->meals_to_eat = ft_atol(av[5]);
 	else
-		table->nbr_limit_meals = -1;
+		philo->meals_to_eat = -1;
 }

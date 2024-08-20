@@ -1,41 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sinchro_utils.c                                    :+:      :+:    :+:   */
+/*   sinchro_utils_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvoznese <kvoznese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/05 17:47:56 by kvoznese          #+#    #+#             */
-/*   Updated: 2024/08/17 02:02:37 by kvoznese         ###   ########.fr       */
+/*   Created: 2024/08/17 01:37:47 by kvoznese          #+#    #+#             */
+/*   Updated: 2024/08/20 13:01:19 by kvoznese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 void	wait_all_threads(t_table *table)
 {
-	while (!get_bool(&table->table_mutex, &table->all_threads_ready))
+	while (!get_bool(table->table_sem, &table->all_threads_ready))
 		;
 }
 
-bool	all_threads_running(t_mtx *mutex, long *threads,
+bool	all_threads_running(sem_t *semaphore, long *threads,
 		long philo_nbr)
 {
 	bool	ret;
 
 	ret = false;
-	safe_mutex_handle(mutex, LOCK);
+	sem_wait(semaphore);
 	if (*threads == philo_nbr)
 		ret = true;
-	safe_mutex_handle(mutex, UNLOCK);
+	sem_post(semaphore);
 	return (ret);
 }
 
-void	increase_long(t_mtx *mutex, long *value)
+void	increase_long(sem_t *semaphore, long *value)
 {
-	safe_mutex_handle(mutex, LOCK);
+	sem_wait(semaphore);
 	(*value)++;
-	safe_mutex_handle(mutex, UNLOCK);
+	sem_post(semaphore);
 }
 
 void	de_synchronize(t_philo *philo)

@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dinner.c                                           :+:      :+:    :+:   */
+/*   dinner_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvoznese <kvoznese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/30 15:32:45 by kvoznese          #+#    #+#             */
-/*   Updated: 2024/08/20 13:15:05 by kvoznese         ###   ########.fr       */
+/*   Created: 2024/08/16 20:48:14 by kvoznese          #+#    #+#             */
+/*   Updated: 2024/08/20 14:25:59 by kvoznese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 void	thinking(t_philo *philo, bool pre_sim)
 {
 	long	t_eat;
 	long	t_sleep;
 	long	t_think;
-
+	
 	if (!pre_sim)
 		write_status(THINKING, philo, DEBUG_MODE);
 	if (philo->table->philo_nbr % 2 == 0)
 		return ;
-	t_eat = philo->table->time_to_eat;
-	t_sleep = philo->table->time_to_sleep;
+	t_eat = philo->table->t2e;
+	t_sleep = philo->table->t2s;
 	t_think = t_eat * 2 - t_sleep;
 	if (t_think < 0)
 		t_think = 0;
@@ -36,41 +36,41 @@ void	*lone_philo(void *data)
 
 	philo = (t_philo *)data;
 	wait_all_threads(philo->table);
-	set_long(&philo->philo_mutex, &philo->last_meal_time, get_time(MILLSEC));
-	increase_long(&philo->table->table_mutex,
+	set_long(philo->philo_sem, &philo->last_meal_time, get_time(MILLSEC));
+	increase_long(philo->table->table_sem,
 		&philo->table->threads_running_nbr);
 	write_status(TAKE_FIRST_FORK, philo, DEBUG_MODE);
 	while (!simulation_finished(philo->table))
-		usleep (200);
-	return (NULL);
+		usleep(200);
+		return (NULL);
 }
 
 static void	eat(t_philo *philo)
 {
-	safe_mutex_handle(&philo->first_fork->fork, LOCK);
+	safe_sem_handle(philo->first_fork->fork, WAIT);
 	write_status(TAKE_FIRST_FORK, philo, DEBUG_MODE);
-	safe_mutex_handle(&philo->second_fork->fork, LOCK);
+	safe_sem_handle(philo->second_fork->fork, WAIT);
 	write_status(TAKE_SECOND_FORK, philo, DEBUG_MODE);
-	set_long(&philo->philo_mutex, &philo->last_meal_time, get_time(MILLSEC));
+	set_long(philo->philo_sem, &philo->last_meal_time, get_time(MILLSEC));
 	philo->meals_counter++;
 	write_status(EATING, philo, DEBUG_MODE);
-	precise_usleep(philo->table->time_to_eat, philo->table);
-	if (philo->table->nbr_limit_meals > 0
-		&& philo->meals_counter == philo->table->nbr_limit_meals)
-		set_bool(&philo->philo_mutex, &philo->full, true);
-	safe_mutex_handle(&philo->first_fork->fork, UNLOCK);
-	safe_mutex_handle(&philo->second_fork->fork, UNLOCK);
+	precise_usleep(philo->table->t2e, philo->table);
+	if (philo->table->meals_to_eat > 0
+		&& philo->meals_counter == philo->table->meals_to_eat)
+		set_bool(philo->philo_sem, &philo->full, true);
+	safe_sem_handle(philo->first_fork->fork, POST);
+	safe_sem_handle(philo->second_fork->fork, POST);
 }
 
-void	*dinner_simulation(void *data)
+static void	*dinner_simulation(void *data)
 {
-	t_philo	*philo;
+	t_philo *philo;
 
 	philo = (t_philo *)data;
 	wait_all_threads(philo->table);
-	set_long(&philo->philo_mutex, &philo->last_meal_time,
+	set_long(philo->philo_sem, &philo->last_meal_time,
 		get_time(MILLSEC));
-	increase_long(&philo->table->table_mutex,
+	increase_long(philo->table->table_sem,
 		&philo->table->threads_running_nbr);
 	de_synchronize(philo);
 	while (!simulation_finished(philo->table))
@@ -79,34 +79,34 @@ void	*dinner_simulation(void *data)
 			break ;
 		eat(philo);
 		write_status(SLEEPING, philo, DEBUG_MODE);
-		precise_usleep(philo->table->time_to_sleep, philo->table);
+		precise_usleep(philo->table->t2s, philo->table);
 		thinking(philo, false);
 	}
 	return (NULL);
 }
 
-void	dinner_start(t_table *table)
+void	dinner(t_table *table)
 {
 	int	i;
 
 	i = -1;
-	if (table->nbr_limit_meals == 0)
+	if (table->meals_to_eat == 0)
 		return ;
 	else if (table->philo_nbr == 1)
 		safe_thread_handle(&table->philos[0].thread_id, lone_philo,
-			&table->philos[0], CREATE);
+		&table->philos[0], CREATE);
 	else
 	{
 		while (++i < table->philo_nbr)
 			safe_thread_handle(&table->philos[i].thread_id, dinner_simulation,
 				&table->philos[i], CREATE);
 	}
-	safe_thread_handle(&table->monitor, monitor_dinner, table, CREATE);
+	safe_thread_handle(&table->monitoring, monitoring_dinner, table, CREATE);
 	table->start_simulation = get_time(MILLSEC);
-	set_bool(&table->table_mutex, &table->all_threads_ready, true);
+	set_bool(table->table_sem, &table->all_threads_ready, true);
 	i = -1;
 	while (++i < table->philo_nbr)
 		safe_thread_handle(&table->philos[i].thread_id, NULL, NULL, JOIN);
-	set_bool(&table->table_mutex, &table->end_simulation, true);
-	safe_thread_handle(&table->monitor, NULL, NULL, JOIN);
+	set_bool(table->table_sem, &table->end_simulation, true);
+	safe_thread_handle(&table->monitoring, NULL, NULL, JOIN);
 }

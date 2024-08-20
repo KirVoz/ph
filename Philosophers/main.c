@@ -6,7 +6,7 @@
 /*   By: kvoznese <kvoznese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 20:00:13 by kvoznese          #+#    #+#             */
-/*   Updated: 2024/08/13 21:16:58 by kvoznese         ###   ########.fr       */
+/*   Updated: 2024/08/20 14:23:09 by kvoznese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	main(int ac, char **av)
 		data_init(&table);
 		dinner_start(&table);
 		clean(&table);
-		system("leaks philo");
 	}
 	else
 	{
