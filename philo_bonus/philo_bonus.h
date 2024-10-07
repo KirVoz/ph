@@ -6,7 +6,7 @@
 /*   By: kvoznese <kvoznese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 06:07:19 by kvoznese          #+#    #+#             */
-/*   Updated: 2024/08/20 14:06:08 by kvoznese         ###   ########.fr       */
+/*   Updated: 2024/10/07 15:40:44 by kvoznese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define CYAN "\033[1;36m"
 # define WHITE "\033[1;37m"
 
-# define DEBUG_MODE 1
+# define DEBUG_MODE 0
 
 typedef enum e_opcode
 {
